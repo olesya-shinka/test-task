@@ -1,0 +1,82 @@
+.edit-content {
+    padding-left: 220px;
+    padding-right: 220px;
+    padding-top: 60px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.edit-content-title {
+    font-size: 24px;
+}
+
+.edit-content-box1 {
+    display: flex;
+    gap: 80px;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.edit-content-box1 textarea {
+    width: 500px;
+    min-height: 95px;
+    resize: none;
+    text-indent: 5px;
+    font-size: 16px;
+}
+
+.edit-content-box1-text {
+    font-size: 18px;
+}
+
+.edit-content-box1-text2 {
+    margin-right: 35px;
+}
+
+.edit-content-box1-input {
+    width: 500px;
+    height: 36px;
+}
+
+.edit-content-box1-check {
+    width: 24px;
+    height: 24px;
+}
+
+.edit-content-box2 {
+    display: flex;
+    gap: 25px;
+    margin-left: 220px;
+    margin-top: 40px;
+}
+
+.edit-content-box2-btn1 {
+    background-color: #DA1515;
+    border-radius: 10px;
+    color: white;
+    width: 128px;
+    height: 48px;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+.edit-content-box2-btn2 {
+    width: 122px;
+    height: 48px;
+    font-size: 18px;
+    border-radius: 10px;
+    color: white;
+    background-color: #000000;
+    cursor: pointer;
+}
+
+.edit-content-box2-btn3 {
+    width: 150px;
+    height: 48px;
+    background-color: #F7EE55;
+    font-size: 18px;
+    border-radius: 10px;
+    color: white;
+    cursor: pointer;
+}

@@ -1,0 +1,65 @@
+.main-content {
+    padding-left: 220px;
+    padding-right: 220px;
+    padding-top: 60px;
+}
+
+.main-content-box {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 40px;
+}
+
+.main-content-title {
+    color: #000000;
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.main-content-btn {
+    background-color: #F7EE55;
+    width: 278px;
+    height: 48px;
+    font-size: 18px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid;
+    border-radius: 10px;
+    font-weight: 600;
+    line-height: 22px;
+    cursor: pointer;
+    transition: all 500ms ease;
+    text-decoration: none;
+    color: #000000;
+}
+
+.main-content-btn:hover {
+    transform: scale(1.03);
+}
+
+table.iksweb {
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+    height: auto;
+}
+
+table.iksweb,
+table.iksweb td,
+table.iksweb th {
+    border: 1px solid #595959;
+}
+
+table.iksweb td,
+table.iksweb th {
+    width: 30px;
+    height: 35px;
+}
+
+table.iksweb th {
+    background: #347c99;
+    color: #fff;
+    font-weight: normal;
+}

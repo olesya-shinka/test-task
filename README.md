@@ -1,46 +1,103 @@
-# Getting Started with Create React App
+# Тестовое задание на позицию junior frontend разработчика
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Стек технологий
 
-## Available Scripts
+React, TypeScript, React Hook Form, Redux Toolkit.
 
-In the project directory, you can run:
+## Задание
 
-### `npm start`
+Создать веб-приложение согласно [дизайн макету в Figma](https://www.figma.com/file/PPouirJaJdOid3gsVLNT25/%D0%A2%D0%B5%D1%81%D1%82%D0%BE%D0%B2%D0%BE%D0%B5-%D0%B7%D0%B0%D0%B4%D0%B0%D0%BD%D0%B8%D0%B5-(%D1%84%D1%80%D0%BE%D0%BD%D1%82%D0%B5%D0%BD%D0%B4)?type=design&node-id=0-1&mode=design). Веб-приложение состоит из 3 страниц:
+- Главная страница со списком выпускаемой продукции;
+- Страница создания типа продукции;
+- Страница редактирования типа продукции.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### Взаимодействие с сервером
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+Все данные хранятся в бэкенде. В качестве API тестового задания используется json-server. Чтобы запустить сервер, необходимо выполнить:
 
-### `npm test`
+```sh
+# Переход в папку api
+cd ./api
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+# Установка зависимостей
+npm i
 
-### `npm run build`
+# Запуск сервера (будет развернут на http://localhost:8081)
+npm start
+```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Список допустимых запросов к серверу можно просмотреть в Postman - нужно импортировать файл `FakeApi.postman_collection.json`, или обратиться к списку ниже.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+#### Получение всех типов продукции
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Method: GET
+URL: http://localhost:8081/productTypes
 
-### `npm run eject`
+#### Получение типа продукции по ID
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+Method: GET
+URL: http://localhost:8081/productTypes/{productTypeId}
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+#### Создание типа продукции
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+Method: POST
+URL: http://localhost:8081/productTypes
+Body (пример):
+```json
+{
+  "packsNumber": 15,
+  "packageType": "компрессия",
+  "isArchived": false,
+  "description": "Описание продукции\nВ несколько строк"
+}
+```
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+#### Редактирование типа продукции
 
-## Learn More
+Method: PATCH
+URL: http://localhost:8081/productTypes/{productTypeId}
+Body (пример):
+```json
+{
+  "packsNumber": 15,
+  "packageType": "компрессия",
+  "isArchived": false,
+  "description": "Описание продукции\nВ несколько строк"
+}
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+#### Удаление типа продукции
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Method: DELETE
+URL: http://localhost:8081/productTypes/{productTypeId}
+
+### Задачи
+
+#### Главная страница
+
+- [ ] В таблице на главной странице отображается список типов продукции, отсортированный по дате "От нового к старому"
+- [ ] При клике на кнопку "Создать тип продукции" происходит переход на соответствующую страницу
+- [ ] При клике на иконку "Инфо" появляется тултип с описанием продукции
+- [ ] При клике на иконку "Карандаш" открывается страница редактирования типа продукции
+- [ ] При клике на иконку "Корзина" пользователь должен подтвердить желание удалить тип продукции в модальном окне, после чего происходит запрос на удаление
+- [ ] После обновления данных (создание/редактирование/удаление) список на главной должен обновляться
+
+#### Страница создания/редактирования
+
+- [ ] Должна быть проверка на пустоту полей, помеченных звездочкой
+- [ ] При клике на кнопку "Удалить" тип продукции удаляется, предварительно запросив подтверждение пользователя
+- [ ] При клике на кнопку "Отмена" пользователь возвращается на главную страницу
+- [ ] При клике на кнопку "Создать" создается новая запись
+- [ ] При клике на кнопку "Сохранить" данные обновляются
+- [ ] После нажатия на любую из кнопок происходит редирект на главный экран
+
+### Структура данных
+
+База данных содержит только одну сущность - тип продукции (productTypes). Данные в тестовой БД можно посмотреть в файле `api/db.json`. Типы данных:
+
+- id: string
+- packsNumber: number (int)
+- packageType: string (компрессия/компрессия)
+- isArchived: boolean
+- description: string (optional)
+- createdAt: string (ISO date time format)
