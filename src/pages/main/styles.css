@@ -59,7 +59,6 @@ table.iksweb th {
 
 table.iksweb td,
 table.iksweb th {
-    width: 30px;
     height: 35px;
     padding-left: 10px;
 }
@@ -74,6 +73,18 @@ table {
     counter-reset: rowNumber;
 }
 
+.actions{
+    display: flex;
+    justify-content: space-around;
+}
+.descr{
+    width: 40px;
+}
+
+table tbody {
+    max-width: 1090px;
+}
+
 table tbody tr {
     counter-increment: rowNumber;
 }
@@ -86,9 +97,11 @@ table tr td:first-child::before {
 
 .tooltip-container {
     position: relative;
-    display: inline-block;
     display: flex;
     flex-wrap: wrap;
+    
+    justify-content: center;
+   
 }
 
 .tooltip-text {

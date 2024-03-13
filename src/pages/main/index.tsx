@@ -17,30 +17,39 @@ export interface ProductSchema {
 
 const Main: React.FC = () => {
   const [productInfo, setProductInfo] = useState<ProductSchema[]>([]);
-  const [error, setError] = useState("");
+  // const [error, setError] = useState("");
 
   useEffect(() => {
-    axios
-      .get<ProductSchema[]>(`http://localhost:8081/productTypes`)
-      .then((response) => {
-        const formattedProductInfo = response.data.map((product) => ({
-          ...product,isArchived: product.isArchived ? "архив" : "активно",
-          createdAt: new Date(product.createdAt).toLocaleDateString("ru-RU", {
-            day: "2-digit",
-            month: "2-digit",
-            year: "numeric",
-          }),
-        }));
-        setProductInfo(formattedProductInfo);
-      })
-      .catch((ex) => {
-        const error =
-          ex.response.status === 404
-            ? "Resource Not found"
-            : "An unexpected error has occurred";
-        setError(error);
-      });
+    fetchData();
   }, []);
+  const fetchData = async () => {
+    try {
+      const response = await axios.get<ProductSchema[]>(
+        `http://localhost:8081/productTypes`
+      );
+      const formattedProductInfo = response.data.map((product) => ({
+        ...product,
+        isArchived: product.isArchived === "true" ? "Архив" : "Активно",
+        createdAt: new Date(product.createdAt).toLocaleDateString("ru-RU", {
+          day: "2-digit",
+          month: "2-digit",
+          year: "numeric",
+        }),
+      }));
+      setProductInfo(formattedProductInfo);
+    } catch (error) {
+      console.error("Error deleting product:", error);
+    }
+  };
+
+  const handleDeleteProduct = async (productTypeId: string) => {
+    try {
+      await axios.delete(`http://localhost:8081/productTypes/${productTypeId}`);
+      fetchData();
+    } catch (error) {
+      console.error("Error deleting product:", error);
+    }
+  };
 
   return (
     <div className="main-content">
@@ -51,7 +60,6 @@ const Main: React.FC = () => {
         </NavLink>
       </div>
       <div>
-        {error && <p className="error">{error}</p>}
         <table className="iksweb">
           <thead>
             <td>№</td>
@@ -71,17 +79,21 @@ const Main: React.FC = () => {
                   <td>{item.packageType}</td>
                   <td>{item.createdAt}</td>
                   <td>{item.isArchived}</td>
-                  <td>
+                  <td className="descr">
                     <div className="tooltip-container">
                       <span className="tooltip-text">{item.description}</span>
                       <img src="question.svg" alt="?" />
                     </div>
                   </td>
                   <td>
-                    <Link to={`edit/${item.id}`}>
-                      <FaPen style={{ marginRight: 15, marginLeft: 30 }} />
-                    </Link>
-                    <FaTrashAlt />
+                    <div className="actions">
+                      <Link to={`edit/${item.id}`}>
+                        <FaPen />
+                      </Link>
+                      <FaTrashAlt
+                        onClick={() => handleDeleteProduct(item.id)}
+                      />
+                    </div>
                   </td>
                 </tr>
               );

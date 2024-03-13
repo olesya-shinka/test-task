@@ -1,21 +1,6 @@
 {
   "productTypes": [
     {
-      "id": "KatJDS1",
-      "packsNumber": 24,
-      "packageType": "компрессия",
-      "isArchived": true,
-      "description": "Описание продукции\nВ несколько строк",
-      "createdAt": "2024-02-01T16:08:24.630Z"
-    },
-    {
-      "id": "2Pj88FE",
-      "packsNumber": 12,
-      "packageType": "некомпрессия",
-      "isArchived": false,
-      "createdAt": "2024-01-25T16:08:24.630Z"
-    },
-    {
       "id": "3s-oN_s",
       "packsNumber": 20,
       "packageType": "компрессия",
@@ -40,14 +25,6 @@
       "id": "VStfhJ6"
     },
     {
-      "packsNumber": 89,
-      "packageType": "некомпрессия",
-      "isArchived": false,
-      "description": "олротльорпавспмиро",
-      "createdAt": "2024-03-13T04:54:42.261Z",
-      "id": "uNmPgVb"
-    },
-    {
       "packsNumber": 8,
       "packageType": "некомпрессия",
       "isArchived": false,
@@ -64,14 +41,6 @@
       "id": "4hZmX1k"
     },
     {
-      "packsNumber": 100,
-      "packageType": "компрессия",
-      "isArchived": false,
-      "description": "f",
-      "createdAt": "2024-03-13T06:29:33.143Z",
-      "id": "EChW_cc"
-    },
-    {
       "packsNumber": 56,
       "packageType": "компрессия",
       "isArchived": true,
@@ -86,14 +55,6 @@
       "description": "описание описание",
       "createdAt": "2024-03-13T10:48:34.079Z",
       "id": "OqxApu0"
-    },
-    {
-      "packsNumber": 33,
-      "packageType": "некомпрессия",
-      "isArchived": true,
-      "description": "павпжвабпджавпдлыавмп",
-      "createdAt": "2024-03-13T10:49:20.207Z",
-      "id": "KkWiCCy"
     }
   ]
 }
