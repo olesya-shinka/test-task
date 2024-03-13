@@ -27,7 +27,6 @@ const Edit: React.FC<{ productTypeId: string }> = ({ productTypeId }) => {
       }
     };
     fetchData();
-    console.log()
   }, [productTypeId]);
 
   const handleUpdateData = async () => {
@@ -45,6 +44,17 @@ const Edit: React.FC<{ productTypeId: string }> = ({ productTypeId }) => {
       console.log("Data updated successfully:", response.data);
     } catch (error) {
       console.error("Error updating data:", error);
+    }
+  };
+
+  const handleDeleteProduct = async () => {
+    try {
+      const response = await axios.delete(
+        `http://localhost:8081/productTypes/${productTypeId}`
+      );
+      console.log("Product deleted successfully:", response.data);
+    } catch (error) {
+      console.error("Error deleting product:", error);
     }
   };
 
@@ -94,7 +104,14 @@ const Edit: React.FC<{ productTypeId: string }> = ({ productTypeId }) => {
         ></textarea>
       </div>
       <div className="edit-content-box2">
-        <button className="edit-content-box2-btn1">Удалить</button>
+        <Link to={`/`}>
+          <button
+            className="edit-content-box2-btn1"
+            onClick={handleDeleteProduct}
+          >
+            Удалить
+          </button>
+        </Link>
         <Link to={`/`}>
           <button className="edit-content-box2-btn2">Отмена</button>
         </Link>

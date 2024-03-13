@@ -7,22 +7,32 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 
 export interface ProductSchema {
-  id: String;
-  packsNumber: Number;
-  packageType: String;
-  isArchived: Boolean;
-  description: String;
-  createdAt: String;
+  id: string;
+  packsNumber: number;
+  packageType: string;
+  isArchived: boolean;
+  description: string;
+  createdAt: string;
 }
 
-const Main = () => {
+const Main: React.FC = () => {
   const [productInfo, setProductInfo] = useState<ProductSchema[]>([]);
   const [error, setError] = useState("");
 
   useEffect(() => {
     axios
       .get<ProductSchema[]>(`http://localhost:8081/productTypes`)
-      .then((response) => setProductInfo(response.data))
+      .then((response) => {
+        const formattedProductInfo = response.data.map((product) => ({
+          ...product,
+          createdAt: new Date(product.createdAt).toLocaleDateString("ru-RU", {
+            day: "2-digit",
+            month: "2-digit",
+            year: "numeric",
+          }),
+        }));
+        setProductInfo(formattedProductInfo);
+      })
       .catch((ex) => {
         const error =
           ex.response.status === 404
@@ -62,11 +72,10 @@ const Main = () => {
                   <td>{item.createdAt}</td>
                   <td>{item.isArchived.toString()}</td>
                   <td>
-                    <img
-                      src="question.svg"
-                      alt="?"
-                      style={{ marginLeft: 30 }}
-                    />
+                    <div className="tooltip-container">
+                      <span className="tooltip-text">{item.description}</span>
+                      <img src="question.svg" alt="?" />
+                    </div>
                   </td>
                   <td>
                     <Link to={`edit/${item.id}`}>

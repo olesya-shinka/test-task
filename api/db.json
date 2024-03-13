@@ -70,6 +70,14 @@
       "description": "f",
       "createdAt": "2024-03-13T06:29:33.143Z",
       "id": "EChW_cc"
+    },
+    {
+      "packsNumber": 56,
+      "packageType": "компрессия",
+      "isArchived": true,
+      "description": "это описание",
+      "createdAt": "2024-03-13T10:28:27.930Z",
+      "id": "Fo6EQpS"
     }
   ]
 }
