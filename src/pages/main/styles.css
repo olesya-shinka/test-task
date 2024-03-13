@@ -39,6 +39,11 @@
     transform: scale(1.03);
 }
 
+.error {
+    font-size: 36px;
+    color: red;
+}
+
 table.iksweb {
     width: 100%;
     border-collapse: collapse;
@@ -56,10 +61,25 @@ table.iksweb td,
 table.iksweb th {
     width: 30px;
     height: 35px;
+    padding-left: 10px;
 }
 
 table.iksweb th {
     background: #347c99;
     color: #fff;
     font-weight: normal;
+}
+
+table {
+    counter-reset: rowNumber;
+}
+
+table tbody tr {
+    counter-increment: rowNumber;
+}
+
+table tr td:first-child::before {
+    content: counter(rowNumber);
+    min-width: 1em;
+    margin-right: 0.5em;
 }

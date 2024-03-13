@@ -1,8 +1,28 @@
 import React from "react";
 import "./styles.css";
 import { Link } from "react-router-dom";
+import axios, { AxiosResponse } from "axios";
+import { Payload } from "../create";
 
 const Edit = () => {
+  // const postData = async () => {
+  //   try {
+  //     // const dataToSend = {
+  //     //   packsNumber: packsNumber,
+  //     //   packageType: packageType,
+  //     //   isArchived: isArch,
+  //     //   description: description,
+  //     // };
+  //     const response: AxiosResponse = await axios.patch(
+  //       `http://localhost:8081/productTypes`,
+  //      // dataToSend
+  //     );
+  //     const responseData: Payload = response.data;
+  //     console.log(responseData);
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
   return (
     <div className="edit-content">
       <h1 className="edit-content-title">Редактирование типа продукции</h1>

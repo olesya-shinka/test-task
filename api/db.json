@@ -22,6 +22,46 @@
       "isArchived": false,
       "description": "Описание продукции\nВ несколько строк",
       "createdAt": "2024-01-23T16:08:24.630Z"
+    },
+    {
+      "packsNumber": 4,
+      "packageType": "некомпрессия",
+      "isArchived": true,
+      "description": "ппппппп",
+      "createdAt": "2024-03-13T04:49:07.074Z",
+      "id": "BWxzRP4"
+    },
+    {
+      "packsNumber": 4,
+      "packageType": "некомпрессия",
+      "isArchived": false,
+      "description": "оооооооооо",
+      "createdAt": "2024-03-13T04:53:52.135Z",
+      "id": "VStfhJ6"
+    },
+    {
+      "packsNumber": 89,
+      "packageType": "некомпрессия",
+      "isArchived": false,
+      "description": "олротльорпавспмиро",
+      "createdAt": "2024-03-13T04:54:42.261Z",
+      "id": "uNmPgVb"
+    },
+    {
+      "packsNumber": 8,
+      "packageType": "некомпрессия",
+      "isArchived": false,
+      "description": "jhjk",
+      "createdAt": "2024-03-13T04:57:34.687Z",
+      "id": "byXSC2j"
+    },
+    {
+      "packsNumber": 7,
+      "packageType": "компрессия",
+      "isArchived": false,
+      "description": "kuhkj",
+      "createdAt": "2024-03-13T04:59:10.275Z",
+      "id": "4hZmX1k"
     }
   ]
 }

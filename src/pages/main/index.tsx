@@ -1,18 +1,37 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { FaPen } from "react-icons/fa";
 import { FaTrashAlt } from "react-icons/fa";
 import "./styles.css";
 import { NavLink } from "react-router-dom";
 import { Link } from "react-router-dom";
-import { getTypesProduct } from "../../api";
+import axios from "axios";
+
+export interface ProductSchema {
+  id: String;
+  packsNumber: Number;
+  packageType: String;
+  isArchived: Boolean;
+  description: String;
+  createdAt: String;
+}
 
 const Main = () => {
+  const [productInfo, setProductInfo] = useState<ProductSchema[]>([]);
+  const [error, setError] = useState("");
+
   useEffect(() => {
-    getTypesProduct
-      .then((res) => console.log(res))
-      .catch((err) => console.log(err));
+    axios
+      .get<ProductSchema[]>(`http://localhost:8081/productTypes`)
+      .then((response) => setProductInfo(response.data))
+      .catch((ex) => {
+        const error =
+          ex.response.status === 404
+            ? "Resource Not found"
+            : "An unexpected error has occurred";
+        setError(error);
+      });
   }, []);
-  
+
   return (
     <div className="main-content">
       <div className="main-content-box">
@@ -22,33 +41,42 @@ const Main = () => {
         </NavLink>
       </div>
       <div>
+        {error && <p className="error">{error}</p>}
         <table className="iksweb">
+          <thead>
+            <td>№</td>
+            <td>Кол-во пачек</td>
+            <td>Тип упаковки</td>
+            <td>Дата создания</td>
+            <td>Статус</td>
+            <td></td>
+            <td></td>
+          </thead>
           <tbody>
-            <tr>
-              <td>№</td>
-              <td>Кол-во пачек</td>
-              <td>Тип упаковки</td>
-              <td>Дата создания</td>
-              <td>Статус</td>
-              <td></td>
-              <td></td>
-            </tr>
-            <tr>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td>
-                <img src="question.svg" alt="?" />
-              </td>
-              <td>
-                <Link to={`edit`}>
-                  <FaPen style={{ marginRight: 25 }} />
-                </Link>
-                <FaTrashAlt />
-              </td>
-            </tr>
+            {productInfo.map((item, i) => {
+              return (
+                <tr key={i}>
+                  <td></td>
+                  <td>{item.packsNumber.toString()}</td>
+                  <td>{item.packageType}</td>
+                  <td>{item.createdAt}</td>
+                  <td>{item.isArchived.toString()}</td>
+                  <td>
+                    <img
+                      src="question.svg"
+                      alt="?"
+                      style={{ marginLeft: 30 }}
+                    />
+                  </td>
+                  <td>
+                    <Link to={`edit`}>
+                      <FaPen style={{ marginRight: 15, marginLeft: 30 }} />
+                    </Link>
+                    <FaTrashAlt />
+                  </td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       </div>
