@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { FaPen } from "react-icons/fa";
 import { FaTrashAlt } from "react-icons/fa";
 import "./styles.css";
 import { NavLink } from "react-router-dom";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import ModalPopup from "../../components/modal";
 
 export interface ProductSchema {
   id: string;
@@ -17,11 +18,16 @@ export interface ProductSchema {
 
 const Main: React.FC = () => {
   const [productInfo, setProductInfo] = useState<ProductSchema[]>([]);
-  // const [error, setError] = useState("");
+  const [isPopupVisible, setPopupVisible] = React.useState<boolean>(false);
+  const [selectedProductId, setSelectedProductId] = useState<string | null>(
+    null
+  );
+  const popupRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     fetchData();
   }, []);
+
   const fetchData = async () => {
     try {
       const response = await axios.get<ProductSchema[]>(
@@ -29,7 +35,7 @@ const Main: React.FC = () => {
       );
       const formattedProductInfo = response.data.map((product) => ({
         ...product,
-        isArchived: product.isArchived === "true" ? "Архив" : "Активно",
+        isArchived: product.isArchived ? "Архив" : "Активно",
         createdAt: new Date(product.createdAt).toLocaleDateString("ru-RU", {
           day: "2-digit",
           month: "2-digit",
@@ -49,7 +55,25 @@ const Main: React.FC = () => {
     } catch (error) {
       console.error("Error deleting product:", error);
     }
+    setPopupVisible(false);
   };
+
+  const handleDeleteButtonClick = (productTypeId: string) => {
+    setSelectedProductId(productTypeId);
+    setPopupVisible(true);
+  };
+
+  useEffect(() => {
+    const handleOutsideClick = (e: MouseEvent) => {
+      if (popupRef.current && !popupRef.current.contains(e.target as Node)) {
+        setPopupVisible(false);
+      }
+    };
+    document.addEventListener("mousedown", handleOutsideClick);
+    return () => {
+      document.removeEventListener("mousedown", handleOutsideClick);
+    };
+  }, []);
 
   return (
     <div className="main-content">
@@ -91,7 +115,9 @@ const Main: React.FC = () => {
                         <FaPen />
                       </Link>
                       <FaTrashAlt
-                        onClick={() => handleDeleteProduct(item.id)}
+                        style={{ cursor: "pointer" }}
+                        onClick={() => handleDeleteButtonClick(item.id)}
+                        //handleDeleteProduct(item.id)
                       />
                     </div>
                   </td>
@@ -100,6 +126,19 @@ const Main: React.FC = () => {
             })}
           </tbody>
         </table>
+        {isPopupVisible && (
+          <div ref={popupRef}>
+            <ModalPopup
+              isOpen={isPopupVisible}
+              onClose={() => setPopupVisible(false)}
+              onConfirm={async () => {
+                if (selectedProductId) {
+                  await handleDeleteProduct(selectedProductId);
+                }
+              } }
+              productTypeId={selectedProductId || ""} selectedProductId={""}            />
+          </div>
+        )}
       </div>
     </div>
   );

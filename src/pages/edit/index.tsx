@@ -1,33 +1,49 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
 import "./styles.css";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 import { Payload } from "../create";
 
-const Edit: React.FC<{ productTypeId: string }> = ({ productTypeId }) => {
+const Edit: React.FC<{ productTypeId: string }> = () => {
+  const { productTypeId } = useParams<{ productTypeId: string }>();
   const [description, setDescription] = useState<string>("");
   const [packsNumber, setPackNumber] = useState<number>(0);
   const [packageType, setPackageType] = useState<string>("");
   const [isArch, setIsArch] = useState<boolean>(false);
+  //const [isConfirmOpen, setIsConfirmOpen] = useState(false);
   const defaultvalue = " ";
 
+  const fetchData = async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:8081/productTypes/${productTypeId}`
+      );
+      const productData: Payload = response.data;
+      setPackNumber(productData.packsNumber);
+      setPackageType(productData.packageType);
+      setIsArch(productData.isArchived);
+      setDescription(productData.description);
+    } catch (error) {
+      console.error("Error fetching product data:", error);
+    }
+  };
+
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(
-          `http://localhost:8081/productTypes/${productTypeId}`
-        );
-        const productData: Payload = response.data;
-        setPackNumber(productData.packsNumber);
-        setPackageType(productData.packageType);
-        setIsArch(productData.isArchived);
-        setDescription(productData.description);
-      } catch (error) {
-        console.log(error);
-      }
-    };
     fetchData();
   }, [productTypeId]);
+
+  const patchData = async (data: Payload) => {
+    try {
+      await axios.patch(
+        `http://localhost:8081/productTypes/${productTypeId}`,
+        data
+      );
+    } catch (error) {
+      console.error("Error updating product:", error);
+    }
+  };
 
   const handleUpdateData = async () => {
     const payload: Payload = {
@@ -36,25 +52,22 @@ const Edit: React.FC<{ productTypeId: string }> = ({ productTypeId }) => {
       isArchived: isArch,
       description: description,
     };
-    try {
-      const response = await axios.patch(
-        `http://localhost:8081/productTypes/${productTypeId}`,
-        payload
-      );
-      console.log("Data updated successfully:", response.data);
-    } catch (error) {
-      console.error("Error updating data:", error);
-    }
+
+    await patchData(payload);
   };
 
   const handleDeleteProduct = async () => {
-    try {
-      const response = await axios.delete(
-        `http://localhost:8081/productTypes/${productTypeId}`
-      );
-      console.log("Product deleted successfully:", response.data);
-    } catch (error) {
-      console.error("Error deleting product:", error);
+    const confirmDelete = window.confirm(
+      "Вы уверены, что хотите удалить продукт?"
+    );
+    if (confirmDelete) {
+      try {
+        const response = await axios.delete(
+          `http://localhost:8081/productTypes/${productTypeId}`
+        );
+      } catch (error) {
+        console.error("Error deleting product:", error);
+      }
     }
   };
 
@@ -62,10 +75,14 @@ const Edit: React.FC<{ productTypeId: string }> = ({ productTypeId }) => {
     <div className="edit-content">
       <h1 className="edit-content-title">Редактирование типа продукции</h1>
       <div className="edit-content-box1">
-        <p className="edit-content-box1-text">Кол-во пачек</p>
+        <label htmlFor="packsNumber">
+          <p className="edit-content-box1-text">Кол-во пачек</p>
+        </label>
         <input
+          id="packsNumber"
           className="edit-content-box1-input"
-          type="text"
+          type="number"
+          name="packsNumber"
           value={packsNumber}
           onChange={(e) => setPackNumber(Number(e.target.value))}
         />
@@ -75,10 +92,11 @@ const Edit: React.FC<{ productTypeId: string }> = ({ productTypeId }) => {
           <p className="edit-content-box1-text">Тип упаковки</p>
         </label>
         <select
-          id="nametype"
+          id="packageType"
           className="edit-content-box1-input"
-          onChange={(e) => setPackageType(e.target.value)}
+          name="packageType"
           value={packageType}
+          onChange={(e) => setPackageType(e.target.value)}
         >
           <option value=" " defaultValue={defaultvalue}></option>
           <option value="компрессия">компрессия</option>
@@ -86,19 +104,26 @@ const Edit: React.FC<{ productTypeId: string }> = ({ productTypeId }) => {
         </select>
       </div>
       <div className="edit-content-box1">
-        <p className="edit-content-box1-text">Архивировано</p>
+        <label htmlFor="isArchived">
+          <p className="edit-content-box1-text">Архивировано</p>
+        </label>
         <input
+          id="isArchived"
           className="edit-content-box1-check"
           type="checkbox"
+          name="isArchived"
           checked={isArch}
           onChange={(e) => setIsArch(e.target.checked)}
         />
       </div>
       <div className="edit-content-box1">
-        <p className="edit-content-box1-text2">Описание</p>
-
+        <label htmlFor="description">
+          <p className="edit-content-box1-text2">Описание</p>
+        </label>
         <textarea
           placeholder="Описание..."
+          id="description"
+          name="description"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
         ></textarea>
