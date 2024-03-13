@@ -69,7 +69,7 @@ const Main = () => {
                     />
                   </td>
                   <td>
-                    <Link to={`edit`}>
+                    <Link to={`edit/${item.id}`}>
                       <FaPen style={{ marginRight: 15, marginLeft: 30 }} />
                     </Link>
                     <FaTrashAlt />

@@ -7,7 +7,7 @@ import Create from "./pages/create";
 function AppRoutes(): JSX.Element {
   return <Routes>
     <Route path="/" element={<Main />} />
-    <Route path="/edit/:id" element={<Edit />} />
+    <Route path="/edit/:productTypeId" element={<Edit productTypeId={""} />} />
     <Route path="/create" element={<Create />} />
   </Routes>;
 }

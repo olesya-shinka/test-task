@@ -45,8 +45,8 @@ const Create: React.FC = () => {
         <p className="create-content-box1-text">Кол-во пачек</p>
         <input
           className="create-content-box1-input"
-          value={packsNumber}
           type="text"
+          value={packsNumber}
           onChange={(e) => setPackNumber(Number(e.target.value))}
         />
       </div>
