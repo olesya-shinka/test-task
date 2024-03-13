@@ -10,7 +10,7 @@ export interface ProductSchema {
   id: string;
   packsNumber: number;
   packageType: string;
-  isArchived: boolean;
+  isArchived: boolean | string;
   description: string;
   createdAt: string;
 }
@@ -24,7 +24,7 @@ const Main: React.FC = () => {
       .get<ProductSchema[]>(`http://localhost:8081/productTypes`)
       .then((response) => {
         const formattedProductInfo = response.data.map((product) => ({
-          ...product,
+          ...product,isArchived: product.isArchived ? "архив" : "активно",
           createdAt: new Date(product.createdAt).toLocaleDateString("ru-RU", {
             day: "2-digit",
             month: "2-digit",
@@ -70,7 +70,7 @@ const Main: React.FC = () => {
                   <td>{item.packsNumber.toString()}</td>
                   <td>{item.packageType}</td>
                   <td>{item.createdAt}</td>
-                  <td>{item.isArchived.toString()}</td>
+                  <td>{item.isArchived}</td>
                   <td>
                     <div className="tooltip-container">
                       <span className="tooltip-text">{item.description}</span>
