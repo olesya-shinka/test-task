@@ -5,6 +5,8 @@ import "./styles.css";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { Payload } from "../create";
+import { useDispatch } from "react-redux";
+import { updateProductType, deleteProductType } from "../../store/slices/addTypeProductSlice";
 
 const Edit: React.FC<{ productTypeId: string }> = () => {
   const { productTypeId } = useParams<{ productTypeId: string }>();
@@ -15,6 +17,7 @@ const Edit: React.FC<{ productTypeId: string }> = () => {
   const [error, setError] = useState<string | null>("");
   const navigate = useNavigate();
   const defaultvalue = " ";
+  const dispatch = useDispatch();
 
   const fetchData = async () => {
     try {
@@ -35,17 +38,6 @@ const Edit: React.FC<{ productTypeId: string }> = () => {
     fetchData();
   }, [productTypeId]);
 
-  const patchData = async (data: Payload) => {
-    try {
-      await axios.patch(
-        `http://localhost:8081/productTypes/${productTypeId}`,
-        data
-      );
-    } catch (error) {
-      console.error("Error updating product:", error);
-    }
-  };
-
   const handleUpdateData = async () => {
     if (
       packsNumber <= 0 &&
@@ -60,10 +52,17 @@ const Edit: React.FC<{ productTypeId: string }> = () => {
       isArchived: isArch,
       description: description,
     };
-
-    setError("");
-    await patchData(payload);
-    navigate(`/`);
+    try {
+      const response = await axios.patch(
+        `http://localhost:8081/productTypes/${productTypeId}`,
+        payload
+      );
+      dispatch(updateProductType(response.data));
+      navigate(`/`);
+    } catch (error) {
+      console.error("Error updating product:", error);
+      setError("");
+    }
   };
 
   const handleDeleteProduct = async () => {
@@ -75,6 +74,7 @@ const Edit: React.FC<{ productTypeId: string }> = () => {
         const response = await axios.delete(
           `http://localhost:8081/productTypes/${productTypeId}`
         );
+        dispatch(deleteProductType(response.data));
       } catch (error) {
         console.error("Error deleting product:", error);
       }

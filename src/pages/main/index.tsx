@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useRef, useState } from "react";
 import { FaPen } from "react-icons/fa";
 import { FaTrashAlt } from "react-icons/fa";
@@ -6,6 +7,10 @@ import { NavLink } from "react-router-dom";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import ModalPopup from "../../components/modal";
+import { RootState } from "../../store/store";
+import { useDispatch, useSelector } from "react-redux";
+import { setProductTypes } from "../../store/slices/allTypesProductSlices";
+import { deleteProductType } from "../../store/slices/addTypeProductSlice";
 
 export interface ProductSchema {
   id: string;
@@ -17,12 +22,15 @@ export interface ProductSchema {
 }
 
 const Main: React.FC = () => {
-  const [productInfo, setProductInfo] = useState<ProductSchema[]>([]);
   const [isPopupVisible, setPopupVisible] = React.useState<boolean>(false);
   const [selectedProductId, setSelectedProductId] = useState<string | null>(
     null
   );
   const popupRef = useRef<HTMLDivElement | null>(null);
+  const dispatch = useDispatch();
+  const productTypes = useSelector(
+    (state: RootState) => state.productTypes.productTypes
+  );
 
   useEffect(() => {
     fetchData();
@@ -42,7 +50,7 @@ const Main: React.FC = () => {
           year: "numeric",
         }),
       }));
-      setProductInfo(formattedProductInfo);
+      dispatch(setProductTypes(formattedProductInfo));
     } catch (error) {
       console.error("Error deleting product:", error);
     }
@@ -50,7 +58,8 @@ const Main: React.FC = () => {
 
   const handleDeleteProduct = async (productTypeId: string) => {
     try {
-      await axios.delete(`http://localhost:8081/productTypes/${productTypeId}`);
+      const res = await axios.delete(`http://localhost:8081/productTypes/${productTypeId}`);
+      dispatch(deleteProductType(res.data))
       fetchData();
     } catch (error) {
       console.error("Error deleting product:", error);
@@ -95,7 +104,7 @@ const Main: React.FC = () => {
             <td></td>
           </thead>
           <tbody>
-            {productInfo.map((item, i) => {
+            {productTypes.map((item, i) => {
               return (
                 <tr key={i}>
                   <td></td>

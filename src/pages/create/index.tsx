@@ -3,6 +3,8 @@ import { useState } from "react";
 import "./styles.css";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { useDispatch } from "react-redux";
+import { addProductType } from "../../store/slices/addTypeProductSlice";
 
 export interface Payload {
   packsNumber: number;
@@ -16,20 +18,10 @@ const Create: React.FC = () => {
   const [packsNumber, setPackNumber] = useState<number | null | undefined>();
   const [packageType, setPackageType] = useState<string>("");
   const [isArch, setIsArch] = useState<boolean>(false);
-  const defaultvalue = " ";
   const [error, setError] = useState<string | null>("");
   const navigate = useNavigate();
-
-  const postData = async (data: Payload) => {
-    try {
-      const response = await axios.post(
-        "http://localhost:8081/productTypes",
-        data
-      );
-    } catch (error) {
-      setError("error");
-    }
-  };
+  const dispatch = useDispatch();
+  const defaultvalue = " ";
 
   const handlePostData = async () => {
     if (
@@ -48,9 +40,17 @@ const Create: React.FC = () => {
       description: description,
     };
 
-    setError(null);
-    await postData(payload);
-    navigate(`/`);
+    try {
+      const response = await axios.post(
+        `http://localhost:8081/productTypes`,
+        payload
+      );
+      dispatch(addProductType(response.data));
+      navigate(`/`); 
+    } catch (error) {
+      console.error("Ошибка при создании продукта:", error);
+      setError("Ошибка при создании продукта.");
+    }
   };
 
   return (
