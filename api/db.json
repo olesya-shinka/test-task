@@ -15,6 +15,30 @@
       "description": "hghjghjghjghjghj",
       "createdAt": "2024-03-14T09:39:35.034Z",
       "id": 2
+    },
+    {
+      "packsNumber": 4,
+      "packageType": "компрессия",
+      "isArchived": false,
+      "description": "mkkm",
+      "createdAt": "2024-03-14T11:10:39.340Z",
+      "id": 3
+    },
+    {
+      "packsNumber": 4,
+      "packageType": "компрессия",
+      "isArchived": false,
+      "description": "",
+      "createdAt": "2024-03-14T11:14:11.545Z",
+      "id": 4
+    },
+    {
+      "packsNumber": 77,
+      "packageType": "некомпрессия",
+      "isArchived": false,
+      "description": "",
+      "createdAt": "2024-03-14T11:17:47.509Z",
+      "id": 5
     }
   ]
 }
