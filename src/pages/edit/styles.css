@@ -80,3 +80,22 @@
     color: white;
     cursor: pointer;
 }
+
+.required-label {
+    display: flex;
+    align-items: center;
+}
+
+.required-label::after {
+    content: " *";
+    color: red;
+}
+
+.required-input {
+    border: 1px solid red;
+}
+
+.error {
+    font-size: 18px;
+    color: red;
+}

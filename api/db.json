@@ -1,12 +1,20 @@
 {
   "productTypes": [
     {
-      "packsNumber": 55656,
+      "packsNumber": 4545,
       "packageType": "компрессия",
       "isArchived": false,
-      "description": "fdkgmkdfd",
-      "createdAt": "2024-03-13T17:33:03.409Z",
+      "description": "fghnjghjmk,",
+      "createdAt": "2024-03-13T17:57:51.933Z",
       "id": 1
+    },
+    {
+      "packsNumber": 555,
+      "packageType": "компрессия",
+      "isArchived": true,
+      "description": "hghjghjghjghjghj",
+      "createdAt": "2024-03-14T09:39:35.034Z",
+      "id": 2
     }
   ]
 }

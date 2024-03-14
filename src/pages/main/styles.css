@@ -39,11 +39,6 @@
     transform: scale(1.03);
 }
 
-.error {
-    font-size: 36px;
-    color: red;
-}
-
 table.iksweb {
     width: 100%;
     border-collapse: collapse;

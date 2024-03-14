@@ -14,7 +14,7 @@ const ModalPopup: React.FC<ModalPopupProps> = ({
   onClose,
   onConfirm,
   selectedProductId,
-  productTypeId
+  productTypeId,
 }) => {
   const handleConfirmClick: React.MouseEventHandler<HTMLButtonElement> = async (
     event

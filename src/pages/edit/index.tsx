@@ -2,7 +2,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
 import "./styles.css";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { Payload } from "../create";
 
@@ -12,7 +12,8 @@ const Edit: React.FC<{ productTypeId: string }> = () => {
   const [packsNumber, setPackNumber] = useState<number>(0);
   const [packageType, setPackageType] = useState<string>("");
   const [isArch, setIsArch] = useState<boolean>(false);
-  //const [isConfirmOpen, setIsConfirmOpen] = useState(false);
+  const [error, setError] = useState<string | null>("");
+  const navigate = useNavigate();
   const defaultvalue = " ";
 
   const fetchData = async () => {
@@ -46,6 +47,13 @@ const Edit: React.FC<{ productTypeId: string }> = () => {
   };
 
   const handleUpdateData = async () => {
+    if (
+      packsNumber <= 0 &&
+      !["компрессия", "некомпрессия"].includes(packageType.trim())
+    ) {
+      setError("Пожалуйста, заполните обязательные поля.");
+      return;
+    }
     const payload: Payload = {
       packsNumber: packsNumber,
       packageType: packageType,
@@ -53,7 +61,9 @@ const Edit: React.FC<{ productTypeId: string }> = () => {
       description: description,
     };
 
+    setError("");
     await patchData(payload);
+    navigate(`/`);
   };
 
   const handleDeleteProduct = async () => {
@@ -74,8 +84,9 @@ const Edit: React.FC<{ productTypeId: string }> = () => {
   return (
     <div className="edit-content">
       <h1 className="edit-content-title">Редактирование типа продукции</h1>
+      {error && <p className="error">{error}</p>}
       <div className="edit-content-box1">
-        <label htmlFor="packsNumber">
+        <label htmlFor="packsNumber" className="required-label">
           <p className="edit-content-box1-text">Кол-во пачек</p>
         </label>
         <input
@@ -88,13 +99,13 @@ const Edit: React.FC<{ productTypeId: string }> = () => {
         />
       </div>
       <div className="edit-content-box1">
-        <label htmlFor="nametype">
+        <label htmlFor="nametype" className="required-label">
           <p className="edit-content-box1-text">Тип упаковки</p>
         </label>
         <select
-          id="packageType"
+          id="nametype"
           className="edit-content-box1-input"
-          name="packageType"
+          name="nametype"
           value={packageType}
           onChange={(e) => setPackageType(e.target.value)}
         >
@@ -140,15 +151,13 @@ const Edit: React.FC<{ productTypeId: string }> = () => {
         <Link to={`/`}>
           <button className="edit-content-box2-btn2">Отмена</button>
         </Link>
-        <Link to={`/`}>
-          <button
-            type="submit"
-            className="edit-content-box2-btn3"
-            onClick={handleUpdateData}
-          >
-            Сохранить
-          </button>
-        </Link>
+        <button
+          type="submit"
+          className="edit-content-box2-btn3"
+          onClick={handleUpdateData}
+        >
+          Сохранить
+        </button>
       </div>
     </div>
   );

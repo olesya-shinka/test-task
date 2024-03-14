@@ -1,6 +1,7 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useState } from "react";
 import "./styles.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 export interface Payload {
@@ -12,10 +13,12 @@ export interface Payload {
 
 const Create: React.FC = () => {
   const [description, setDescription] = useState<string>("");
-  const [packsNumber, setPackNumber] = useState<number>(0);
+  const [packsNumber, setPackNumber] = useState<number | null | undefined>();
   const [packageType, setPackageType] = useState<string>("");
   const [isArch, setIsArch] = useState<boolean>(false);
   const defaultvalue = " ";
+  const [error, setError] = useState<string | null>("");
+  const navigate = useNavigate();
 
   const postData = async (data: Payload) => {
     try {
@@ -24,34 +27,50 @@ const Create: React.FC = () => {
         data
       );
     } catch (error) {
-      console.error("Error:", error);
+      setError("error");
     }
   };
 
   const handlePostData = async () => {
+    if (
+      packsNumber === null ||
+      packsNumber === undefined ||
+      packsNumber <= 0 ||
+      !["компрессия", "некомпрессия"].includes(packageType.trim())
+    ) {
+      setError("Пожалуйста, заполните обязательные поля.");
+      return;
+    }
     const payload: Payload = {
       packsNumber: packsNumber,
       packageType: packageType,
       isArchived: isArch,
       description: description,
     };
+
+    setError(null);
     await postData(payload);
+    navigate(`/`);
   };
 
   return (
     <div className="create-content">
       <h1 className="create-content-title">Создание типа продукции</h1>
+      {error && <p className="error">{error}</p>}
       <div className="create-content-box1">
-        <p className="create-content-box1-text">Кол-во пачек</p>
+        <label htmlFor="packsNumber" className="required-label">
+          <p className="create-content-box1-text">Кол-во пачек</p>
+        </label>
         <input
+          id="packsNumber"
           className="create-content-box1-input"
           type="text"
-          value={packsNumber}
+          value={packsNumber ?? ""}
           onChange={(e) => setPackNumber(Number(e.target.value))}
         />
       </div>
       <div className="create-content-box1">
-        <label htmlFor="nametype">
+        <label htmlFor="nametype" className="required-label">
           <p className="create-content-box1-text">Тип упаковки</p>
         </label>
         <select
@@ -87,15 +106,13 @@ const Create: React.FC = () => {
         <Link to={`/`}>
           <button className="create-content-box2-btn2">Отмена</button>
         </Link>
-        <Link to={`/`}>
-          <button
-            type="submit"
-            className="create-content-box2-btn3"
-            onClick={handlePostData}
-          >
-            Создать
-          </button>
-        </Link>
+        <button
+          type="submit"
+          className="create-content-box2-btn3"
+          onClick={handlePostData}
+        >
+          Создать
+        </button>
       </div>
     </div>
   );

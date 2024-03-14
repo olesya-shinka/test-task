@@ -105,7 +105,11 @@ const Main: React.FC = () => {
                   <td>{item.isArchived}</td>
                   <td className="descr">
                     <div className="tooltip-container">
-                      <span className="tooltip-text">{item.description}</span>
+                      {item.description.length === 0 ? (
+                        <span className="tooltip-text">Нет описания</span>
+                      ) : (
+                        <span className="tooltip-text">{item.description}</span>
+                      )}
                       <img src="question.svg" alt="?" />
                     </div>
                   </td>
@@ -117,7 +121,6 @@ const Main: React.FC = () => {
                       <FaTrashAlt
                         style={{ cursor: "pointer" }}
                         onClick={() => handleDeleteButtonClick(item.id)}
-                        //handleDeleteProduct(item.id)
                       />
                     </div>
                   </td>
@@ -135,8 +138,10 @@ const Main: React.FC = () => {
                 if (selectedProductId) {
                   await handleDeleteProduct(selectedProductId);
                 }
-              } }
-              productTypeId={selectedProductId || ""} selectedProductId={""}            />
+              }}
+              productTypeId={selectedProductId || ""}
+              selectedProductId={""}
+            />
           </div>
         )}
       </div>
